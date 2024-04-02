@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "sunsofgold"
+version = "0.1.0"
+description = "suns of gold generator for swn revised"
+authors = ["Alex Sipiere <alex.sipiere@protonmail.ch>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2.1"
+streamlit = "^1.32.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.4"
+pytest = "^8.1.1"
+poethepoet = "^0.25.0"
+mypy = "^1.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D", # disable documentation rules
+]
+
+[tool.poe.tasks]
+lint = "ruff check --fix"
+start = "streamlit run app.py"
