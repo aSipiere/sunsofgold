@@ -46,10 +46,20 @@ class TradeProfile:
     def generate_troubles_series(self) -> pd.Series:
         """generates a series of the troubles"""
         troubles = pd.Series(
-            self.troubles, name=f"Troubles ({self.trouble_chance} chance)",
+            self.troubles, name=f"Troubles ({self.trouble_chance} in 10 chance)",
         )
         troubles.index += 1
         return troubles
+    
+    def display(self):
+        st.markdown("# " + f"{' | '.join([f'{cargo_type} {modifier:+}' for cargo_type, modifier in self.modifiers.items()])}",)
+
+        # Render Goods and troubles tables
+        goods_col, troubles_col = st.columns(2)
+        goods_col.dataframe(
+            self.generate_trade_goods_df(), hide_index=True,
+        )
+        troubles_col.dataframe(self.generate_troubles_series())
 
     def to_dict(self):
         return {
@@ -139,17 +149,7 @@ class Planet:
                 icon="⚠️",
             )
         if self.trade_profile is not None:
-            st.markdown(
-                "# "
-                + f"{' | '.join([f'{cargo_type} {modifier:+}' for cargo_type, modifier in self.trade_profile.modifiers.items()])}",
-            )
-
-            # Render Goods and troubles tables
-            goods_col, troubles_col = st.columns(2)
-            goods_col.dataframe(
-                self.trade_profile.generate_trade_goods_df(), hide_index=True,
-            )
-            troubles_col.dataframe(self.trade_profile.generate_troubles_series())
+            self.trade_profile.display()
 
     def to_dict(self):
         return {
