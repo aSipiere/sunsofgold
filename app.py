@@ -37,11 +37,20 @@ if "gazeteer_json" not in state:
     # Load data and build gazeteer
     if swn_file is not None:
         swn_data = json.load(swn_file)
-        gazeteer = build_system_gazeteer(swn_data)
-        state["gazeteer_json"] = json.dumps(gazeteer.to_dict())
+        if "gazeteer" not in swn_data:
+            gazeteer = build_system_gazeteer(swn_data)
+            state["gazeteer_json"] = json.dumps(gazeteer.to_dict())
+        else:
+            gazeteer = Gazeteer().from_dict(swn_data)
 
 if "gazeteer_json" in state:
     gazeteer = Gazeteer.from_dict(json.loads(state["gazeteer_json"]))
+    st.sidebar.download_button(
+        "Download System Gazeteer",
+        data=json.dumps({"gazeteer": gazeteer.to_dict()}),
+        file_name="gazeteer.json",
+        mime='application/json'
+    )
     # Select a target system
     system_select = {f"{v.name} {v.hex}": k for k, v in gazeteer.systems.items()}
     target_system = system_select[st.selectbox("System:", system_select.keys())]

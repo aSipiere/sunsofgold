@@ -168,6 +168,8 @@ class Planet:
 
     @classmethod
     def from_dict(cls, data) -> "Planet":
+        if "gazeteer" in data:
+            data = data['gazeteer']
         return cls(
             name=data["name"],
             parent=data["parent"],
