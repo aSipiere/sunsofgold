@@ -2,9 +2,8 @@ import type {
   Gazeteer,
   Planet,
   SWNData,
+  SectorInfo,
   System,
-  TradeProfile,
-  TradeProfileCollection,
 } from "../types";
 
 export function parsePlanet(planetData: SWNData["planet"][string]): Planet {
@@ -21,18 +20,42 @@ export function parsePlanet(planetData: SWNData["planet"][string]): Planet {
   };
 }
 
-function getParentSystemAndHex(
+function getParentInfo(
   data: SWNData,
   planetData: SWNData["planet"][string]
-): [string, string] {
-  const parent =
-    data[planetData.parentEntity][planetData.parent] as unknown as {
-      name: string;
-      x: number;
-      y: number;
-    };
+): { name: string; hex: string; x: number; y: number } {
+  const parent = data[planetData.parentEntity][planetData.parent] as {
+    name: string;
+    x: number;
+    y: number;
+  };
   const hex = `${String(parent.x - 1).padStart(2, "0")}${String(parent.y - 1).padStart(2, "0")}`;
-  return [parent.name, hex];
+  return { name: parent.name, hex, x: parent.x, y: parent.y };
+}
+
+export function extractSectorInfo(data: SWNData): SectorInfo {
+  if (data.sector) {
+    const sectorData = Object.values(data.sector)[0] as {
+      name?: string;
+      rows?: number;
+      columns?: number;
+    };
+    return {
+      name: sectorData?.name ?? "Unknown Sector",
+      rows: sectorData?.rows ?? 10,
+      columns: sectorData?.columns ?? 8,
+    };
+  }
+  // Infer from system positions
+  let maxX = 8;
+  let maxY = 10;
+  if (data.system) {
+    for (const sys of Object.values(data.system) as { x: number; y: number }[]) {
+      if (sys.x > maxX) maxX = sys.x;
+      if (sys.y > maxY) maxY = sys.y;
+    }
+  }
+  return { name: "Unknown Sector", rows: maxY + 1, columns: maxX + 1 };
 }
 
 export function buildSystemGazeteer(data: SWNData): Gazeteer {
@@ -40,11 +63,13 @@ export function buildSystemGazeteer(data: SWNData): Gazeteer {
 
   for (const planetData of Object.values(data.planet)) {
     if (!(planetData.parent in gazeteer)) {
-      const [parentName, parentHex] = getParentSystemAndHex(data, planetData);
+      const info = getParentInfo(data, planetData);
       gazeteer[planetData.parent] = {
         entity: planetData.parentEntity,
-        name: parentName,
-        hex: parentHex,
+        name: info.name,
+        hex: info.hex,
+        x: info.x,
+        y: info.y,
         children: [],
       };
     }
@@ -52,12 +77,6 @@ export function buildSystemGazeteer(data: SWNData): Gazeteer {
   }
 
   return gazeteer;
-}
-
-export function parseTradeProfileCollection(
-  data: Record<string, TradeProfile>
-): TradeProfileCollection {
-  return data;
 }
 
 export function gazeteerFromDict(
@@ -69,26 +88,13 @@ export function gazeteerFromDict(
   return data as Gazeteer;
 }
 
-export function planetFromDict(data: Record<string, unknown>): Planet {
-  const d = ("gazeteer" in data ? data.gazeteer : data) as Planet;
-  return {
-    name: d.name,
-    parent: d.parent,
-    tech_level: d.tech_level,
-    atmosphere: d.atmosphere,
-    temperature: d.temperature,
-    biosphere: d.biosphere,
-    population: d.population,
-    tags: d.tags,
-    trade_profile: d.trade_profile ?? null,
-  };
-}
-
 export function systemToDict(system: System) {
   return {
     entity: system.entity,
     name: system.name,
     hex: system.hex,
+    x: system.x,
+    y: system.y,
     children: system.children.map((p) => ({ ...p })),
   };
 }

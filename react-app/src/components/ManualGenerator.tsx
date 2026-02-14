@@ -1,14 +1,7 @@
 import { useState } from "react";
-import type { TradeProfile, TradeGood } from "../types";
+import type { TradeProfile, TradeGood, StandardCommodity } from "../types";
 import { CARGO_TYPES, DEFAULT_TROUBLES } from "../data/constants";
 import { TradeProfileDisplay } from "./TradeProfileDisplay";
-
-interface StandardCommodity {
-  cargo: string;
-  cost_per_unit: number;
-  min_tech_level: number;
-  types: string;
-}
 
 interface Props {
   standardCommodities: StandardCommodity[];

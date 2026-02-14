@@ -1,14 +1,7 @@
 import { useState } from "react";
-import type { TradeProfile, TradeProfileCollection } from "../types";
+import type { TradeProfile, TradeProfileCollection, StandardCommodity } from "../types";
 import { TemplateGenerator } from "./TemplateGenerator";
 import { ManualGenerator } from "./ManualGenerator";
-
-interface StandardCommodity {
-  cargo: string;
-  cost_per_unit: number;
-  min_tech_level: number;
-  types: string;
-}
 
 interface Props {
   templates: TradeProfileCollection;
@@ -30,22 +23,24 @@ export function TradeProfileGenerator({
         className="btn btn-secondary expander-btn"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? "Hide" : "Generate Trade Profile"}
+        {isOpen ? "Hide Generator" : "Generate Trade Profile"}
       </button>
 
       {isOpen && (
         <div className="generator-content">
-          <div className="form-group">
-            <label>Method:</label>
-            <select
-              value={method}
-              onChange={(e) =>
-                setMethod(e.target.value as "template" | "manual")
-              }
+          <div className="method-toggle">
+            <button
+              className={`toggle-btn ${method === "template" ? "active" : ""}`}
+              onClick={() => setMethod("template")}
             >
-              <option value="template">Template</option>
-              <option value="manual">Manual</option>
-            </select>
+              Template
+            </button>
+            <button
+              className={`toggle-btn ${method === "manual" ? "active" : ""}`}
+              onClick={() => setMethod("manual")}
+            >
+              Manual
+            </button>
           </div>
 
           {method === "template" ? (

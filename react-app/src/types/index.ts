@@ -28,10 +28,18 @@ export interface System {
   entity: string;
   name: string;
   hex: string;
+  x: number;
+  y: number;
   children: Planet[];
 }
 
 export type Gazeteer = Record<string, System>;
+
+export interface SectorInfo {
+  rows: number;
+  columns: number;
+  name: string;
+}
 
 export type TradeProfileCollection = Record<string, TradeProfile>;
 
