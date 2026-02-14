@@ -665,6 +665,52 @@ a:hover {
   color: #7abef0;
 }
 
+/* ===== Tag Generator ===== */
+.tag-analysis h4 {
+  color: #5ba4e6;
+  font-size: 0.8rem;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tag-chip-active {
+  background: rgba(91, 164, 230, 0.2);
+  border-color: rgba(91, 164, 230, 0.4);
+  color: #5ba4e6;
+}
+
+.tag-modifier-summary {
+  margin-top: 0.75rem;
+}
+
+.modifier-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+}
+
+.modifier-pill {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.modifier-supply {
+  background: rgba(80, 200, 120, 0.12);
+  color: #50c878;
+  border: 1px solid rgba(80, 200, 120, 0.3);
+}
+
+.modifier-demand {
+  background: rgba(230, 140, 60, 0.12);
+  color: #e68c3c;
+  border: 1px solid rgba(230, 140, 60, 0.3);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .main-area {

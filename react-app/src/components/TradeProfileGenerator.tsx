@@ -2,19 +2,22 @@ import { useState } from "react";
 import type { TradeProfile, TradeProfileCollection, StandardCommodity } from "../types";
 import { TemplateGenerator } from "./TemplateGenerator";
 import { ManualGenerator } from "./ManualGenerator";
+import { TagGenerator } from "./TagGenerator";
 
 interface Props {
   templates: TradeProfileCollection;
   standardCommodities: StandardCommodity[];
+  tags: string[];
   onApply: (profile: TradeProfile) => void;
 }
 
 export function TradeProfileGenerator({
   templates,
   standardCommodities,
+  tags,
   onApply,
 }: Props) {
-  const [method, setMethod] = useState<"template" | "manual">("template");
+  const [method, setMethod] = useState<"tags" | "template" | "manual">("tags");
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,6 +33,12 @@ export function TradeProfileGenerator({
         <div className="generator-content">
           <div className="method-toggle">
             <button
+              className={`toggle-btn ${method === "tags" ? "active" : ""}`}
+              onClick={() => setMethod("tags")}
+            >
+              From Tags
+            </button>
+            <button
               className={`toggle-btn ${method === "template" ? "active" : ""}`}
               onClick={() => setMethod("template")}
             >
@@ -43,7 +52,13 @@ export function TradeProfileGenerator({
             </button>
           </div>
 
-          {method === "template" ? (
+          {method === "tags" ? (
+            <TagGenerator
+              tags={tags}
+              standardCommodities={standardCommodities}
+              onApply={onApply}
+            />
+          ) : method === "template" ? (
             <TemplateGenerator templates={templates} onApply={onApply} />
           ) : (
             <ManualGenerator

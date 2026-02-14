@@ -21,7 +21,7 @@ function hexToPixel(col: number, row: number) {
 function hexPoints(cx: number, cy: number, size: number): string {
   const points: string[] = [];
   for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI / 3) * i - Math.PI / 6;
+    const angle = (Math.PI / 3) * i;
     points.push(
       `${cx + size * Math.cos(angle)},${cy + size * Math.sin(angle)}`
     );

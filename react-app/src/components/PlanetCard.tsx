@@ -98,6 +98,7 @@ export function PlanetCard({
           <TradeProfileGenerator
             templates={templates}
             standardCommodities={standardCommodities}
+            tags={planet.tags}
             onApply={onApplyProfile}
           />
         </div>
