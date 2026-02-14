@@ -1,0 +1,31 @@
+export const CARGO_TYPES = [
+  "Agricultural",
+  "Alien",
+  "Astronautic",
+  "Biotech",
+  "Consumer",
+  "Cultural",
+  "Livestock",
+  "Low Tech",
+  "Luxury",
+  "Maltech",
+  "Medical",
+  "Military",
+  "Mineral",
+  "Postech",
+  "Pretech",
+  "Religious",
+  "Sapient",
+  "Survival",
+  "Tool",
+  "Vehicle",
+];
+
+export const DEFAULT_TROUBLES = [
+  "Delayed 1d4 weeks.",
+  "Delayed 1d8 weeks.",
+  "Lose 1d4 x 10% of the Cargo.",
+  "Lose 1d6 x 10% of the Cargo.",
+  "Friction increases by 1.",
+  "Friction increases by 1d6.",
+];

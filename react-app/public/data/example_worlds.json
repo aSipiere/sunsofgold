@@ -1,0 +1,241 @@
+{
+    "Agricultural World": {
+        "friction": 2,
+        "modifiers": {
+            "Agricultural": -2,
+            "Livestock": -1,
+            "Biotech": 1,
+            "Tool": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Clothing", "types": ["Common", "Low Tech", "Cultural"], "cost": 1000},
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Fine Liquor", "types": ["Luxury", "Low Tech", "Compact"], "cost": 10000},
+            {"trade_good": "Housewares, Basic", "types": ["Low Tech", "Consumer"], "cost": 2000},
+            {"trade_good": "Livestock, Common", "types": ["Common", "Livestock"], "cost": 2000},
+            {"trade_good": "Livestock, Gengineered", "types": ["Livestock", "Biotech"], "cost": 10000},
+            {"trade_good": "Livestock, Luxury Pets", "types": ["Livestock", "Luxury"], "cost": 25000},
+            {"trade_good": "Metawheat", "types": ["Common", "Agricultural", "Bulky"], "cost": 500},
+            {"trade_good": "Native Artwork", "types": ["Cultural", "Luxury"], "cost": 10000},
+            {"trade_good": "Tools, Basic Hand Tools", "types": ["Low Tech", "Tool"], "cost": 5000}
+        ],
+        "trouble_chance": "2 in 10",
+        "troubles": [
+            "Cargo infested with mold, 1d4 x 10% of goods sold are ruined.",
+            "Farmer's union forces a discount; add 1d4 Friction to this deal.",
+            "Harvest going on and labor is scarce; stuck 1d4 weeks before deal is completed.",
+            "Local Grower's customs make this deal harder; stuck for one week and add 1 Friction.",
+            "Natives have allergic reaction to goods; add 2 Friction to this deal.",
+            "Ship quarantine for plant disease check; stuck there for 1d6+1 weeks."
+        ]
+    },
+    "Alien World": {
+        "friction": 4,
+        "modifiers": {
+            "Alien": -2,
+            "Medical": -1,
+            "Biotech": 1,
+            "Cultural": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Clothing", "types": ["Common", "Low Tech", "Cultural"], "cost": 1000},
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Housewares, Postech", "types": ["Consumer", "Postech"], "cost": 5000},
+            {"trade_good": "Livestock, Common", "types": ["Common", "Livestock"], "cost": 2000},
+            {"trade_good": "Livestock, Gengineered", "types": ["Livestock", "Biotech"], "cost": 10000},
+            {"trade_good": "Metawheat", "types": ["Common", "Agricultural", "Bulky"], "cost": 500},
+            {"trade_good": "Native Artwork", "types": ["Cultural", "Luxury"], "cost": 10000},
+            {"trade_good": "Pretech Junk", "types": ["Pretech"], "cost": 50000},
+            {"trade_good": "Small Arms, Energy", "types": ["Military", "Postech"], "cost": 10000},
+            {"trade_good": "Tools, Industrial", "types": ["Tool", "Postech"], "cost": 10000}
+        ],
+        "trouble_chance": "4 in 10",
+        "troubles": [
+            "Ignorant handling or use wrecks 1d4 x 10% of the goods.",
+            "Local pest ruins 1d4 x 10% of the goods.",
+            "Local rituals add 2 weeks to finishing the deal.",
+            "Product has unwanted side-effects on alien biology, add 1d4+1 friction.",
+            "Product is mistrusted or ahrd to get from local retailers, add 1d6+1 weeks until trade.",
+            "Unexpected alien custom adds 1d4 Friction."
+        ]
+    },
+    "Cosmopolitan World": {
+        "friction": 3,
+        "modifiers": {
+            "Cultural": -2,
+            "Military": -1,
+            "Luxury": 1,
+            "Pretech": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Clothing", "types": ["Common", "Low Tech", "Cultural"], "cost": 1000},
+            {"trade_good": "Colonial Survival Supplies", "types": ["Survival", "Postech"], "cost": 5000},
+            {"trade_good": "Drugs, Recreational", "types": ["Luxury", "Biotech", "Compact"], "cost": 50000},
+            {"trade_good": "Exotic Jewels", "types": ["Rare", "Mineral", "Luxury", "Compact"], "cost": 25000},
+            {"trade_good": "Housewares, Postech", "types": ["Consumer", "Postech"], "cost": 5000},
+            {"trade_good": "Medical Supplies, Posttech", "types": ["Medical", "Postech", "Compact"], "cost": 25000},
+            {"trade_good": "Parts, Basic Industry", "types": ["Low Tech", "Tool"], "cost": 5000},
+            {"trade_good": "Small Arms, Energy", "types": ["Military", "Postech"], "cost": 10000},
+            {"trade_good": "Small Arms, Projectile", "types": ["Military", "Low Tech"], "cost": 5000},
+            {"trade_good": "Fine Liquor", "types": ["Luxury", "Low Tech", "Compact"], "cost": 10000}
+        ],
+        "trouble_chance": "1 in 10",
+        "troubles": [
+            "A functionary finds a number of unpaid tariffs; add 1d4 Friction to the deal.",
+            "local bureaucrat has been annoyed by the PCs; add 1 Friction to the deal.",
+            "Administrative confusion locks the deal down for 1d4 weeks.",
+            "Another merchant just flooded/emptied the market for the goods; add 2 Friction.",
+            "Another merchant takes 1d4 x 10% of the goods through fraud.",
+            "The goods or payment are only partially the genuine article; add 1d4 Friction."
+        ]
+    },
+    "Decadent World": {
+        "friction": 4,
+        "modifiers": {
+            "Sapient": -2,
+            "Biotech": -1,
+            "Maltech": 1,
+            "Luxury": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Clothing", "types": ["Common", "Low Tech", "Cultural"], "cost": 1000},
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Drugs, Recreational", "types": ["Luxury", "Biotech", "Compact"], "cost": 50000},
+            {"trade_good": "Exotic Jewels", "types": ["Rare", "Mineral", "Luxury", "Compact"], "cost": 25000},
+            {"trade_good": "Fine Liquor", "types": ["Luxury", "Low Tech", "Compact"], "cost": 10000},
+            {"trade_good": "Livestock, Gengineered", "types": ["Livestock", "Biotech"], "cost": 10000},
+            {"trade_good": "Livestock, Luxury Pets", "types": ["Livestock", "Luxury"], "cost": 25000},
+            {"trade_good": "Medical Supplies, Posttech", "types": ["Medical", "Postech", "Compact"], "cost": 25000},
+            {"trade_good": "Slaves", "types": ["Sapient"], "cost": 25000},
+            {"trade_good": "Tools, Medical Equipment", "types": ["Tool", "Postech", "Medical"], "cost": 50000}
+        ],
+        "trouble_chance": "4 in 10",
+        "troubles": [
+            "An addict official skims for his habit; add 2 Friction.",
+            "Local merchants can't be bothered to finish the deal; add 1d4+1 weeks.",
+            "Local potentate casually takes half the goods because he can.",
+            "Local workers are drugged or indolent, add 1d6+1 weeks to finish deal.",
+            "Strange local customs coincidentally add 1d4 Friction.",
+            "Thrill-seeking thieves steal 1d4 x 10% of the goods."
+        ]
+    },
+    "Industrial World": {
+        "friction": 2,
+        "modifiers": {
+            "Consumer": -2,
+            "Tool": -1,
+            "Agricultural": 1,
+            "Mineral": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Colonial Survival Supplies", "types": ["Survival", "Postech"], "cost": 5000},
+            {"trade_good": "Fusion Plants", "types": ["Postech", "Tool", "Bulky"], "cost": 2000},
+            {"trade_good": "Housewares, Postech", "types": ["Consumer", "Postech"], "cost": 5000},
+            {"trade_good": "Native Artwork", "types": ["Cultural", "Luxury"], "cost": 10000},
+            {"trade_good": "Parts, Basic Industry", "types": ["Low Tech", "Tool"], "cost": 5000},
+            {"trade_good": "Postech Building Material", "types": ["Tool", "Postech", "Bulky"], "cost": 10000},
+            {"trade_good": "Small Arms, Energy", "types": ["Military", "Postech"], "cost": 10000},
+            {"trade_good": "Small Arms, Projectile", "types": ["Military", "Low Tech"], "cost": 5000},
+            {"trade_good": "Tools, Basic Hand Tools", "types": ["Low Tech", "Tool"], "cost": 5000},
+            {"trade_good": "Tools, Industrial", "types": ["Tool", "Postech"], "cost": 10000}
+        ],
+        "trouble_chance": "3 in 10",
+        "troubles": [
+            "An unfriendly oligopolist arranges for \"accidents\" that destroy 1d6 x 10% of the goods.",
+            "Industrial accident destroys 1d4 x 10% of the goods in this deal.",
+            "Labor unrest adds 1d4 Friction to the deal.",
+            "Monopolists push back on this intrusion, adding 1d6 Friction to the deal.",
+            "The factories are backlogged; the deal is stalled for 1d4 weeks.",
+            "The supplier or buyer is retooling, delaying the deal by 1d6+1 weeks."
+        ]
+    },
+    "Primitive World": {
+        "friction": 4,
+        "modifiers": {
+            "Agricultural": -2,
+            "Livestock": -1,
+            "Tools": 1,
+            "Postech": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Clothing", "types": ["Common", "Low Tech", "Cultural"], "cost": 1000},
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Housewares, Basic", "types": ["Low Tech", "Consumer"], "cost": 2000},
+            {"trade_good": "Livestock, Common", "types": ["Common", "Livestock"], "cost": 2000},
+            {"trade_good": "Metal Ingots, Common", "types": ["Common", "Mineral", "Bulky"], "cost": 1000},
+            {"trade_good": "Metal Ingots, Rare Alloys", "types": ["Mineral", "Bulky", "Rare"], "cost": 5000},
+            {"trade_good": "Metawheat", "types": ["Common", "Agricultural", "Bulky"], "cost": 500},
+            {"trade_good": "Native Artwork", "types": ["Cultural", "Luxury"], "cost": 10000},
+            {"trade_good": "Tools, Basic Hand Tools", "types": ["Low Tech", "Tool"], "cost": 5000}
+        ],
+        "trouble_chance": "3 in 10",
+        "troubles": [
+            "Local rulers argue over who gets to collect the tariffs for 1d6+1 weeks.",
+            "Locals have been upset or frightened by the traders; add 1d4 Friction to the deal.",
+            "Priests require 1d4 Friction worth of inducements to bless the deal.",
+            "Sickness has struck down many workers, delaying the deal by 1d4 weeks.",
+            "Vicious beasts or raiders have ruined/stolen 1d4 x 10% of the goods.",
+            "Weather bogs all transport; add 1d4 weeks to the deal."
+        ]
+    },
+    "Savage World": {
+        "friction": 2,
+        "modifiers": {
+            "Agricultural": -2,
+            "Sapient": -1,
+            "Tools": 1,
+            "Military": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Housewares, Basic", "types": ["Low Tech", "Consumer"], "cost": 2000},
+            {"trade_good": "Livestock, Common", "types": ["Common", "Livestock"], "cost": 2000},
+            {"trade_good": "Metawheat", "types": ["Common", "Agricultural", "Bulky"], "cost": 500},
+            {"trade_good": "Native Artwork", "types": ["Cultural", "Luxury"], "cost": 10000},
+            {"trade_good": "Pretech Junk", "types": ["Pretech"], "cost": 50000},
+            {"trade_good": "Slaves", "types": ["Sapient"], "cost": 25000},
+            {"trade_good": "Small Arms, Projectile", "types": ["Military", "Low Tech"], "cost": 5000},
+            {"trade_good": "Tools, Basic Hand Tools", "types": ["Low Tech", "Tool"], "cost": 5000},
+            {"trade_good": "Fine Liquor", "types": ["Luxury", "Low Tech", "Compact"], "cost": 10000}
+        ],
+        "trouble_chance": "4 in 10",
+        "troubles": [
+            "An aspiring local warlord wants recognition and \"taxes\"; add 1d6 Friction to the deal.",
+            "Arson or collateral combat damage ruins 1d6 x 10% of the good.",
+            "Bandit attacks prevent the goods from moving for 1d4 weeks.",
+            "Desperate locals steal 1d4 x 10% of the goods for survival's sake.",
+            "Local strongman wants a bigger taste, adding 2 points of Friction to the deal.",
+            "Looters plunder 1d4 x 10% of the goods."
+        ]
+    },
+    "Tyranical World": {
+        "friction": 5,
+        "modifiers": {
+            "Mineral": -2,
+            "Sapient": -1,
+            "Military": 1,
+            "Medical": 2
+        },
+        "trade_goods": [
+            {"trade_good": "Drugs, Raw Materials", "types": ["Agricultural", "Biotech", "Bulky"], "cost": 2000},
+            {"trade_good": "Housewares, Basic", "types": ["Low Tech", "Consumer"], "cost": 2000},
+            {"trade_good": "Metal Ingots, Common", "types": ["Common", "Mineral", "Bulky"], "cost": 1000},
+            {"trade_good": "Metal Ingots, Rare Alloys", "types": ["Mineral", "Bulky", "Rare"], "cost": 5000},
+            {"trade_good": "Parts, Basic Industry", "types": ["Low Tech", "Tool"], "cost": 5000},
+            {"trade_good": "Postech Building Material", "types": ["Tool", "Postech", "Bulky"], "cost": 10000},
+            {"trade_good": "Slaves", "types": ["Sapient"], "cost": 25000},
+            {"trade_good": "Small Arms, Energy", "types": ["Military", "Postech"], "cost": 10000},
+            {"trade_good": "Small Arms, Projectile", "types": ["Military", "Low Tech"], "cost": 5000},
+            {"trade_good": "Tools, Industrial", "types": ["Tool", "Postech"], "cost": 10000}
+        ],
+        "trouble_chance": "4 in 10",
+        "troubles": [
+            "A bureaucrat squeezes the PCs for 1d4+1 Friction on the deal.",
+            "security official confiscates 1d6 x 10% of the goods \"for the State\".",
+            "Local rebels and/or common thieves stole 1d4 x 10% of the goods.",
+            "Secret police suspect the PCs of wrongdoing; add 1d6 Friction to the deal.",
+            "The local ruler levies a fresh tariff for 1d6 more Friction on the deal.",
+            "The PCs are suspected as spies or rebels; add 1d4+1 Friction."
+        ]
+    }
+}
