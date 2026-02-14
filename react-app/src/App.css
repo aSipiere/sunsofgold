@@ -1,0 +1,350 @@
+/* Layout */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  min-width: 300px;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-right: 1px solid #333;
+}
+
+.sidebar-title {
+  font-size: 1.4rem;
+  color: #f0c040;
+  margin: 0;
+}
+
+.sidebar-description {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  background: #16213e;
+  color: #e0e0e0;
+  overflow-x: auto;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+  color: #888;
+}
+
+.empty-state h2 {
+  color: #f0c040;
+  margin-bottom: 0.5rem;
+}
+
+/* Form elements */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+select,
+input[type="file"],
+input[type="number"],
+input[type="text"] {
+  background: #0f3460;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+select:focus,
+input:focus {
+  outline: none;
+  border-color: #f0c040;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #f0c040;
+  color: #1a1a2e;
+}
+
+.btn-primary:hover {
+  background: #e0b030;
+}
+
+.btn-secondary {
+  background: #0f3460;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+.btn-secondary:hover {
+  background: #1a4a80;
+}
+
+.expander-btn {
+  margin: 1rem 0;
+}
+
+/* Tabs */
+.planet-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #333;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  color: #aaa;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: #e0e0e0;
+}
+
+.tab-btn.active {
+  color: #f0c040;
+  border-bottom-color: #f0c040;
+}
+
+/* Planet display */
+.planet-display {
+  margin-bottom: 1rem;
+}
+
+.planet-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.planet-info-col h2 {
+  margin: 0;
+  color: #f0c040;
+}
+
+.planet-info-col p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* Warning banner */
+.warning-banner {
+  background: #4a3800;
+  border: 1px solid #f0c040;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  color: #f0c040;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+
+.warning-text {
+  color: #f0c040;
+  font-size: 0.85rem;
+}
+
+/* Trade profile */
+.trade-profile {
+  margin-top: 1rem;
+}
+
+.modifiers-header {
+  color: #f0c040;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.trade-profile-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+th {
+  background: #0f3460;
+  color: #f0c040;
+  font-weight: 600;
+}
+
+tr:hover {
+  background: rgba(240, 192, 64, 0.05);
+}
+
+.selected-row {
+  background: rgba(240, 192, 64, 0.15);
+}
+
+/* Generator */
+.generator-content {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  color: #f0c040;
+  margin: 0 0 0.5rem 0;
+}
+
+.modifiers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.modifier-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.commodities-table {
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+}
+
+.commodities-table thead,
+.commodities-table tbody,
+.commodities-table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.commodities-table thead {
+  position: sticky;
+  top: 0;
+}
+
+.trouble-chance-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trouble-chance-input input {
+  width: 80px;
+}
+
+.troubles-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.trouble-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.trouble-num {
+  min-width: 1.5rem;
+  color: #f0c040;
+  font-weight: 600;
+}
+
+.trouble-row input {
+  flex: 1;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: #f0c040;
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .planet-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trade-profile-tables {
+    grid-template-columns: 1fr;
+  }
+
+  .modifiers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
