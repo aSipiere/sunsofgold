@@ -19,6 +19,10 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
   const [mod4Type, setMod4Type] = useState(CARGO_TYPES[3]);
   const [mod4Val, setMod4Val] = useState(2);
   const [selectedGoods, setSelectedGoods] = useState<Set<number>>(new Set());
+  const [customGoods, setCustomGoods] = useState<TradeGood[]>([]);
+  const [newGoodName, setNewGoodName] = useState("");
+  const [newGoodCost, setNewGoodCost] = useState(100);
+  const [newGoodTypes, setNewGoodTypes] = useState(CARGO_TYPES[0]);
   const [troubleChance, setTroubleChance] = useState(2);
   const [troubles, setTroubles] = useState([...DEFAULT_TROUBLES]);
 
@@ -29,6 +33,20 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
       else next.add(index);
       return next;
     });
+  };
+
+  const addCustomGood = () => {
+    if (!newGoodName.trim()) return;
+    setCustomGoods((prev) => [
+      ...prev,
+      { trade_good: newGoodName.trim(), types: [newGoodTypes], cost: newGoodCost },
+    ]);
+    setNewGoodName("");
+    setNewGoodCost(100);
+  };
+
+  const removeCustomGood = (index: number) => {
+    setCustomGoods((prev) => prev.filter((_, i) => i !== index));
   };
 
   const updateTrouble = (index: number, value: string) => {
@@ -46,13 +64,18 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
     [mod4Type]: mod4Val,
   };
 
-  const tradeGoods: TradeGood[] = standardCommodities
-    .filter((_, i) => selectedGoods.has(i))
-    .map((c) => ({
-      trade_good: c.cargo,
-      types: c.types.split(", "),
-      cost: c.cost_per_unit,
-    }));
+  const tradeGoods: TradeGood[] = [
+    ...standardCommodities
+      .filter((_, i) => selectedGoods.has(i))
+      .map((c) => ({
+        trade_good: c.cargo,
+        types: c.types.split(", "),
+        cost: c.cost_per_unit,
+      })),
+    ...customGoods,
+  ];
+
+  const totalGoods = selectedGoods.size + customGoods.length;
 
   const profile: TradeProfile = {
     friction,
@@ -110,10 +133,10 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
 
       <section className="form-section">
         <h4>Choose Trade Goods</h4>
-        {selectedGoods.size !== 10 && (
+        {totalGoods !== 10 && (
           <p className="warning-text">
             The recommended number of trade goods is 10. (Currently:{" "}
-            {selectedGoods.size})
+            {totalGoods})
           </p>
         )}
         <table className="commodities-table">
@@ -147,6 +170,58 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
             ))}
           </tbody>
         </table>
+
+        {customGoods.length > 0 && (
+          <div className="custom-goods-list">
+            <h4>Custom Trade Goods</h4>
+            {customGoods.map((good, i) => (
+              <div key={i} className="custom-good-row">
+                <span className="custom-good-name">{good.trade_good}</span>
+                <span className="custom-good-detail">
+                  ${good.cost.toLocaleString()} &middot; {good.types.join(", ")}
+                </span>
+                <button
+                  className="custom-good-remove"
+                  onClick={() => removeCustomGood(i)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="add-custom-good">
+          <h4>Add Custom Trade Good</h4>
+          <div className="custom-good-form">
+            <input
+              type="text"
+              placeholder="Trade good name"
+              value={newGoodName}
+              onChange={(e) => setNewGoodName(e.target.value)}
+            />
+            <input
+              type="number"
+              min={1}
+              placeholder="Cost"
+              value={newGoodCost}
+              onChange={(e) => setNewGoodCost(Number(e.target.value))}
+            />
+            <select
+              value={newGoodTypes}
+              onChange={(e) => setNewGoodTypes(e.target.value)}
+            >
+              {CARGO_TYPES.map((ct) => (
+                <option key={ct} value={ct}>
+                  {ct}
+                </option>
+              ))}
+            </select>
+            <button className="btn btn-secondary" onClick={addCustomGood}>
+              Add
+            </button>
+          </div>
+        </div>
       </section>
 
       <section className="form-section">

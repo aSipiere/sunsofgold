@@ -711,6 +711,90 @@ a:hover {
   border: 1px solid rgba(230, 140, 60, 0.3);
 }
 
+/* ===== Custom Trade Goods ===== */
+.custom-goods-list {
+  margin-top: 0.75rem;
+}
+
+.custom-goods-list h4 {
+  color: #5ba4e6;
+  font-size: 0.8rem;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.custom-good-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #1e3050;
+}
+
+.custom-good-name {
+  color: #c8ddf0;
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.custom-good-detail {
+  color: #5a7a9a;
+  font-size: 0.75rem;
+}
+
+.custom-good-remove {
+  background: none;
+  border: none;
+  color: #7a9ec7;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+
+.custom-good-remove:hover {
+  color: #e06060;
+}
+
+.add-custom-good {
+  margin-top: 0.75rem;
+}
+
+.add-custom-good h4 {
+  color: #5ba4e6;
+  font-size: 0.8rem;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.custom-good-form {
+  display: flex;
+  gap: 0.4rem;
+  align-items: stretch;
+}
+
+.custom-good-form input[type="text"] {
+  flex: 2;
+  min-width: 0;
+}
+
+.custom-good-form input[type="number"] {
+  flex: 1;
+  min-width: 0;
+  width: 80px;
+}
+
+.custom-good-form select {
+  flex: 1;
+  min-width: 0;
+}
+
+.custom-good-form .btn {
+  flex-shrink: 0;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .main-area {
