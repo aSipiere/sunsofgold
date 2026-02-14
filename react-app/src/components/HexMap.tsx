@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, useRef, useCallback, type ReactNode } from "react";
 import type { Gazeteer, SectorInfo, System } from "../types";
 
 interface Props {
@@ -10,9 +10,11 @@ interface Props {
 
 const HEX_SIZE = 38;
 const SQRT3 = Math.sqrt(3);
+const MIN_ZOOM = 0.3;
+const MAX_ZOOM = 4;
+const ZOOM_SENSITIVITY = 0.001;
 
 function hexToPixel(col: number, row: number) {
-  // Odd-q vertical layout (matching SWN)
   const x = col * HEX_SIZE * 1.5;
   const y = row * HEX_SIZE * SQRT3 + (col % 2 === 1 ? (HEX_SIZE * SQRT3) / 2 : 0);
   return { x, y };
@@ -35,6 +37,11 @@ export function HexMap({
   selectedSystemId,
   onSelectSystem,
 }: Props) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const isPanning = useRef(false);
+  const panStart = useRef({ x: 0, y: 0 });
+  const didPan = useRef(false);
+
   const systemsByCoord = useMemo(() => {
     const map = new Map<string, { id: string; system: System }>();
     for (const [id, system] of Object.entries(gazeteer)) {
@@ -46,13 +53,110 @@ export function HexMap({
   const { columns, rows } = sectorInfo;
   const padding = HEX_SIZE + 10;
 
-  // Calculate SVG dimensions
   const lastCol = columns - 1;
   const lastRow = rows - 1;
   const bottomRight = hexToPixel(lastCol, lastRow);
-  const svgWidth = bottomRight.x + HEX_SIZE + padding * 2;
-  const svgHeight =
+  const contentWidth = bottomRight.x + HEX_SIZE + padding * 2;
+  const contentHeight =
     bottomRight.y + HEX_SIZE * SQRT3 / 2 + (lastCol % 2 === 1 ? HEX_SIZE * SQRT3 / 2 : 0) + padding * 2;
+
+  const [viewBox, setViewBox] = useState({
+    x: 0,
+    y: 0,
+    w: contentWidth,
+    h: contentHeight,
+  });
+
+  // Convert screen coordinates to SVG coordinates
+  const screenToSvg = useCallback(
+    (screenX: number, screenY: number) => {
+      const svg = svgRef.current;
+      if (!svg) return { x: 0, y: 0 };
+      const rect = svg.getBoundingClientRect();
+      const scaleX = viewBox.w / rect.width;
+      const scaleY = viewBox.h / rect.height;
+      return {
+        x: viewBox.x + (screenX - rect.left) * scaleX,
+        y: viewBox.y + (screenY - rect.top) * scaleY,
+      };
+    },
+    [viewBox]
+  );
+
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      e.preventDefault();
+      const zoomFactor = 1 + e.deltaY * ZOOM_SENSITIVITY;
+
+      setViewBox((prev) => {
+        const newW = Math.max(contentWidth * MIN_ZOOM, Math.min(contentWidth * MAX_ZOOM, prev.w * zoomFactor));
+        const newH = Math.max(contentHeight * MIN_ZOOM, Math.min(contentHeight * MAX_ZOOM, prev.h * zoomFactor));
+
+        // Zoom toward cursor position
+        const svgPoint = screenToSvg(e.clientX, e.clientY);
+        const ratioX = (svgPoint.x - prev.x) / prev.w;
+        const ratioY = (svgPoint.y - prev.y) / prev.h;
+
+        return {
+          x: svgPoint.x - ratioX * newW,
+          y: svgPoint.y - ratioY * newH,
+          w: newW,
+          h: newH,
+        };
+      });
+    },
+    [contentWidth, contentHeight, screenToSvg]
+  );
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (e.button !== 0) return;
+    isPanning.current = true;
+    didPan.current = false;
+    panStart.current = { x: e.clientX, y: e.clientY };
+    (e.target as Element).setPointerCapture(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isPanning.current) return;
+      const svg = svgRef.current;
+      if (!svg) return;
+
+      const rect = svg.getBoundingClientRect();
+      const dx = (e.clientX - panStart.current.x) * (viewBox.w / rect.width);
+      const dy = (e.clientY - panStart.current.y) * (viewBox.h / rect.height);
+
+      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+        didPan.current = true;
+      }
+
+      panStart.current = { x: e.clientX, y: e.clientY };
+
+      setViewBox((prev) => ({
+        ...prev,
+        x: prev.x - dx,
+        y: prev.y - dy,
+      }));
+    },
+    [viewBox.w, viewBox.h]
+  );
+
+  const handlePointerUp = useCallback(() => {
+    isPanning.current = false;
+  }, []);
+
+  const handleSystemClick = useCallback(
+    (systemId: string) => {
+      // Don't select if the user was panning
+      if (didPan.current) return;
+      onSelectSystem(systemId);
+    },
+    [onSelectSystem]
+  );
+
+  const handleResetView = useCallback(() => {
+    setViewBox({ x: 0, y: 0, w: contentWidth, h: contentHeight });
+  }, [contentWidth, contentHeight]);
 
   const hexes: ReactNode[] = [];
 
@@ -70,14 +174,13 @@ export function HexMap({
       hexes.push(
         <g
           key={`${col}-${row}`}
-          onClick={() => entry && onSelectSystem(entry.id)}
+          onClick={() => entry && handleSystemClick(entry.id)}
           style={{ cursor: hasSystem ? "pointer" : "default" }}
         >
           <polygon
             points={hexPoints(cx, cy, HEX_SIZE - 1)}
             className={`hex-cell ${hasSystem ? "hex-occupied" : ""} ${isSelected ? "hex-selected" : ""}`}
           />
-          {/* Hex coordinate label */}
           <text
             x={cx}
             y={cy + HEX_SIZE * 0.38}
@@ -86,7 +189,6 @@ export function HexMap({
           >
             {hexLabel}
           </text>
-          {/* System marker and name */}
           {entry && (
             <>
               <circle
@@ -118,15 +220,32 @@ export function HexMap({
     }
   }
 
+  const isZoomed =
+    viewBox.x !== 0 ||
+    viewBox.y !== 0 ||
+    Math.abs(viewBox.w - contentWidth) > 1 ||
+    Math.abs(viewBox.h - contentHeight) > 1;
+
   return (
     <div className="hex-map-container">
       <svg
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        ref={svgRef}
+        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`}
         className="hex-map-svg"
         preserveAspectRatio="xMidYMid meet"
+        onWheel={handleWheel}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
       >
         {hexes}
       </svg>
+      {isZoomed && (
+        <button className="map-reset-btn" onClick={handleResetView}>
+          Reset View
+        </button>
+      )}
     </div>
   );
 }
