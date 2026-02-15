@@ -2,17 +2,28 @@ import { useState, useEffect, useMemo } from "react";
 import type { TradeProfile, TradeGood, StandardCommodity } from "../types";
 import { DEFAULT_TROUBLES } from "../data/constants";
 import { TradeProfileDisplay } from "./TradeProfileDisplay";
+import {
+  parseTechLevel,
+  filterCommoditiesByTechLevel,
+} from "../utils/techLevelEnforcement";
 
 type TagMap = Record<string, { supply: string[]; demand: string[] }>;
 
 interface Props {
   tags: string[];
   standardCommodities: StandardCommodity[];
+  techLevel: string;
   onApply: (profile: TradeProfile) => void;
 }
 
-export function TagGenerator({ tags, standardCommodities, onApply }: Props) {
+export function TagGenerator({
+  tags,
+  standardCommodities,
+  techLevel,
+  onApply,
+}: Props) {
   const [tagMap, setTagMap] = useState<TagMap>({});
+  const worldTL = parseTechLevel(techLevel);
 
   useEffect(() => {
     fetch("/data/tags.json")
@@ -71,7 +82,14 @@ export function TagGenerator({ tags, standardCommodities, onApply }: Props) {
       ...Object.keys(demandCounts),
     ]);
 
-    const goods = standardCommodities.filter((c) => {
+    // Filter all commodities by tech level first (with downgrade logic)
+    const validCommodities = filterCommoditiesByTechLevel(
+      standardCommodities,
+      worldTL,
+      tags
+    );
+
+    const goods = validCommodities.filter((c) => {
       const types = c.types.split(", ");
       return types.some((t) => relevantTypes.has(t));
     });
@@ -79,16 +97,16 @@ export function TagGenerator({ tags, standardCommodities, onApply }: Props) {
     // Take up to 10 goods
     const selected = goods.slice(0, 10);
 
-    // If less than 10, fill with remaining commodities
+    // If less than 10, fill with remaining valid commodities
     if (selected.length < 10) {
-      for (const c of standardCommodities) {
+      for (const c of validCommodities) {
         if (selected.length >= 10) break;
         if (!selected.includes(c)) selected.push(c);
       }
     }
 
     return { modifiers: mods, matchedGoods: selected };
-  }, [tags, tagMap, standardCommodities]);
+  }, [tags, tagMap, standardCommodities, worldTL]);
 
   const tradeGoods: TradeGood[] = matchedGoods.map((c) => ({
     trade_good: c.cargo,

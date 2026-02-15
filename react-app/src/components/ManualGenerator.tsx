@@ -2,13 +2,23 @@ import { useState } from "react";
 import type { TradeProfile, TradeGood, StandardCommodity } from "../types";
 import { CARGO_TYPES, DEFAULT_TROUBLES } from "../data/constants";
 import { TradeProfileDisplay } from "./TradeProfileDisplay";
+import {
+  parseTechLevel,
+  isCommodityAllowed,
+} from "../utils/techLevelEnforcement";
 
 interface Props {
   standardCommodities: StandardCommodity[];
+  techLevel: string;
   onApply: (profile: TradeProfile) => void;
 }
 
-export function ManualGenerator({ standardCommodities, onApply }: Props) {
+export function ManualGenerator({
+  standardCommodities,
+  techLevel,
+  onApply,
+}: Props) {
+  const worldTL = parseTechLevel(techLevel);
   const [friction, setFriction] = useState(2);
   const [mod1Type, setMod1Type] = useState(CARGO_TYPES[0]);
   const [mod1Val, setMod1Val] = useState(-2);
@@ -150,24 +160,41 @@ export function ManualGenerator({ standardCommodities, onApply }: Props) {
             </tr>
           </thead>
           <tbody>
-            {standardCommodities.map((c, i) => (
-              <tr
-                key={i}
-                className={selectedGoods.has(i) ? "selected-row" : ""}
-              >
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedGoods.has(i)}
-                    onChange={() => toggleGood(i)}
-                  />
-                </td>
-                <td>{c.cargo}</td>
-                <td>${c.cost_per_unit.toLocaleString()}</td>
-                <td>{c.min_tech_level}</td>
-                <td>{c.types}</td>
-              </tr>
-            ))}
+            {standardCommodities.map((c, i) => {
+              const isAllowed = isCommodityAllowed(c, worldTL);
+              return (
+                <tr
+                  key={i}
+                  className={`${selectedGoods.has(i) ? "selected-row" : ""} ${
+                    !isAllowed ? "tech-restricted" : ""
+                  }`}
+                  title={
+                    !isAllowed
+                      ? `Requires TL${c.min_tech_level}, planet is ${techLevel}`
+                      : ""
+                  }
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedGoods.has(i)}
+                      onChange={() => toggleGood(i)}
+                    />
+                  </td>
+                  <td>
+                    {c.cargo}
+                    {!isAllowed && (
+                      <span style={{ color: "#f44336", marginLeft: "0.5rem" }}>
+                        (TL{c.min_tech_level} required)
+                      </span>
+                    )}
+                  </td>
+                  <td>${c.cost_per_unit.toLocaleString()}</td>
+                  <td>{c.min_tech_level}</td>
+                  <td>{c.types}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
