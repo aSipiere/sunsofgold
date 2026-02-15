@@ -73,6 +73,11 @@ export function TagGenerator({ tags, standardCommodities, onApply }: Props) {
 
     const goods = standardCommodities.filter((c) => {
       const types = c.types.split(", ");
+      // Maltech items should only appear when Maltech is explicitly relevant,
+      // not just because they share another type (e.g. Medical) with common tags
+      if (types.includes("Maltech") && !relevantTypes.has("Maltech")) {
+        return false;
+      }
       return types.some((t) => relevantTypes.has(t));
     });
 
