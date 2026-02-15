@@ -99,6 +99,7 @@ export function PlanetCard({
             templates={templates}
             standardCommodities={standardCommodities}
             tags={planet.tags}
+            techLevel={planet.tech_level}
             onApply={onApplyProfile}
           />
         </div>

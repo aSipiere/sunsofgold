@@ -8,6 +8,7 @@ interface Props {
   templates: TradeProfileCollection;
   standardCommodities: StandardCommodity[];
   tags: string[];
+  techLevel: string;
   onApply: (profile: TradeProfile) => void;
 }
 
@@ -15,6 +16,7 @@ export function TradeProfileGenerator({
   templates,
   standardCommodities,
   tags,
+  techLevel,
   onApply,
 }: Props) {
   const [method, setMethod] = useState<"tags" | "template" | "manual">("tags");
@@ -56,6 +58,7 @@ export function TradeProfileGenerator({
             <TagGenerator
               tags={tags}
               standardCommodities={standardCommodities}
+              techLevel={techLevel}
               onApply={onApply}
             />
           ) : method === "template" ? (
@@ -63,6 +66,7 @@ export function TradeProfileGenerator({
           ) : (
             <ManualGenerator
               standardCommodities={standardCommodities}
+              techLevel={techLevel}
               onApply={onApply}
             />
           )}

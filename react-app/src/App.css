@@ -470,6 +470,14 @@ tr:hover {
   background: rgba(240, 192, 64, 0.1);
 }
 
+.tech-restricted {
+  opacity: 0.5;
+}
+
+.tech-restricted:hover {
+  opacity: 0.7;
+}
+
 /* ===== Buttons ===== */
 .btn {
   padding: 0.45rem 0.9rem;
